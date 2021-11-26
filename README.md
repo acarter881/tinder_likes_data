@@ -8,7 +8,7 @@ Gathering data of likes on [Tinder](https://tinder.com/) within the past 7 days
 ## Output
 ![Imgur](https://imgur.com/6WjLKCs.jpg)
 
-## Basic Data Analysis from Output data of `2,169 likes`
+## Basic Data Analysis from Output data of `2,169` likes
 ![Imgur](https://i.imgur.com/IbCubjv.png)
 ***
 ![Imgur](https://i.imgur.com/0Bhshd2.png)
