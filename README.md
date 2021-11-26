@@ -1,5 +1,5 @@
 # tinder_likes_data
-Gathering data of likes on [Tinder](https://tinder.com/) within the past 7 days. <br><br>
+Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the past 7 days. <br><br>
 ![Imgur](https://imgur.com/hSVjccD.jpg)
 
 ## Non-Python Requirements
