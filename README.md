@@ -11,7 +11,10 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 - Google Chrome running on localhost. See [this video](https://youtu.be/FVumnHy5Tzo) for details.
 
 ## Output
+### Excel workbook
 ![Imgur](https://imgur.com/6WjLKCs.jpg)
+### Saved jpgs
+![Imgur](https://imgur.com/7in0fo0.jpg)
 
 ## Basic Data Analysis from Output data of `2,169` likes
 ![Imgur](https://i.imgur.com/IbCubjv.png)
