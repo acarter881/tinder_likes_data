@@ -1,15 +1,35 @@
 import time
 import re
 import pandas as pd
+import requests
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
+
+"""
+NOTE
+1. Take name and age from the profile.
+2. Write the image url from the "likesYouCard" to a list (e.g., card_urls)
+3. If the image url is not in card_urls, open the profile slider.
+4. In the profile slider,
+Download all images in the profile slider by following the 
+url (e.g., https://images-ssl.gotinder.com/602f403c60c6df01004bd6fc/640x800_1e7fcfeb-0af5-45da-b3f4-aa81aa974b2d.jpg) 
+in the style attribute of the div tag.
+5. The number of span tags with a class attribute of "keen-slider__slide Wc($transform) Fxg(1)"
+tells us how many pictures are on a profile. If we click within the profile slider, we can go to the next picture.
+
+Note: If there's a video then there will be a jpg (screenshot) of the video as well as the video itself.
+In these cases, there's a video tag with the src attribute's value set to the url of the video.
+6. Click outside of the profile slider then go to the next profile.
+"""
 
 class MyLikes:
     def __init__(self, url, driver_path, records_path) -> None:
         self.url = url
         self.URLS = list()
+        self.profile_urls = list()
         self.records = list()
+        self.picture_count = 0
         self.records_path = records_path
         self.name_regEx = re.compile(pattern=r'itemprop=\"name\">(.+)(?=</[sS]pan></[dD]iv><[sS]pan [cC]lass=)')
         self.age_regEx = re.compile(pattern=r'=\"age\">(\d*)<')
@@ -56,10 +76,10 @@ class MyLikes:
         for _ in range(130):
             final_html = self.driver.page_source
 
-            soup = BeautifulSoup(final_html, 'html.parser')
+            self.soup = BeautifulSoup(final_html, 'html.parser')
 
-            cards = soup.find_all('div', {'class': 'Bdrs(8px) Bgz(cv) Bgp(c) StretchedBox'})
-            stats = soup.find_all('div', {'class': 'D(f) Ai(c) Miw(0)'})
+            cards = self.soup.find_all('div', {'class': 'Bdrs(8px) Bgz(cv) Bgp(c) StretchedBox'})
+            stats = self.soup.find_all('div', {'class': 'D(f) Ai(c) Miw(0)'})
 
             stat_count = 0
 
@@ -73,18 +93,30 @@ class MyLikes:
                     else:
                         self.URLS.append(the_url)
 
+                        self.picture_count += 1
+
                         the_stat = str(stats[stat_count])
 
-                        name = re.search(pattern=self.name_regEx, string=the_stat).group(1).title()
+                        # Get the person's name
+                        self.name = re.search(pattern=self.name_regEx, string=the_stat).group(1).title()
 
+                        # Try to get the person's age
                         try:
-                            age = re.search(pattern=self.age_regEx, string=the_stat).group(1)
+                            self.age = re.search(pattern=self.age_regEx, string=the_stat).group(1)
                         except Exception as e:
-                            age = 'Age Not Found'
+                            self.age = 'Age Not Found'
 
-                        self.records.append((name, age))
-                        print(f'Name: {name}, Age: {age}')
+                        # Append person's name and age to the "records" list and print to stdout
+                        self.records.append((self.name, self.age))
+                        print(f'Name: {self.name}, Age: {self.age}')
 
+                        # Download the profile picture
+                        r = requests.get(url=the_url)
+
+                        with open(file=f'./tinder_pics/{self.picture_count}_{self.name}.jpg', mode='wb') as pp:
+                            pp.write(r.content)
+
+                        # Increment the count for the section that has the person's name and age
                         stat_count += 1
                         
             time.sleep(1.5)
