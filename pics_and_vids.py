@@ -159,7 +159,7 @@ class MyLikes:
             else:
                 print(f'Run number: {i}')
                 time.sleep(2.5)
-                pyautogui.scroll(clicks=-755) # Works for opening profile card then closing profile card (not cycling through pictures)
+                pyautogui.scroll(clicks=-755)
                 time.sleep(2.5)
             
 # Instantiate the class and call the necessary functions, inputting your arguments
