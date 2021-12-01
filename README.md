@@ -14,12 +14,14 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 - Google Chrome running on localhost. See [this video](https://youtu.be/FVumnHy5Tzo) for details.
 
 ## Output
-### Excel workbook
+### Excel workbook from `like_data.py`
 ![Imgur](https://imgur.com/6WjLKCs.jpg)
-### Saved jpgs
+### Saved jpgs from `like_data.py`
 ![Imgur](https://imgur.com/7in0fo0.jpg)
+### Saved jpgs and mp4s from `pics_and_vids.py`
+![Imgur](https://imgur.com/steCQJ7.jpg)
 
-## Basic Data Analysis from Output data of `2,169` likes
+## Basic Data Analysis from Output data of `2,169` likes from `like_data.py`
 ![Imgur](https://i.imgur.com/IbCubjv.png)
 ***
 ![Imgur](https://i.imgur.com/0Bhshd2.png)
