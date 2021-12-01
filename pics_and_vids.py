@@ -9,13 +9,10 @@ class MyLikes:
     def __init__(self, url, driver_path) -> None:
         self.url = url
         self.URLS = list()
-        self.profile_urls = list()
         self.saved_picture_urls = list()
         self.saved_video_urls = list()
         self.video_ids = list()
         self.picture_count = 0
-        self.name_regEx = re.compile(pattern=r'itemprop=\"name\">(.+)(?=</[sS]pan></[dD]iv><[sS]pan [cC]lass=)')
-        self.age_regEx = re.compile(pattern=r'=\"age\">(\d*)<')
         self.url_regEx = re.compile(pattern=r'url\(\"(https://.+\.jpg)\"')
         self.video_regEx = re.compile(pattern=r'playsinline.*src=\"(.+\.mp4)\"')
         self.video_id_regEx = re.compile(pattern=r'https://images-ssl.gotinder.com/.*\d{3}x\d{3}_(.*)\_h264\.mp4')
@@ -29,7 +26,6 @@ class MyLikes:
     def log_in(self):
         # Open the URL in Chrome
         self.driver.get(url=self.url)
-
         time.sleep(4)
 
         # Click the Likes Sent button
@@ -37,7 +33,7 @@ class MyLikes:
         time.sleep(3)
 
     def main(self):
-        for i in range(130): # This range can be pretty much anything, really. This is probably overkill, but you don't want to set it to a number where there will still be profiles to download
+        for i in range(30): # This range can be pretty much anything, really. This is probably overkill, but you don't want to set it to a number where there will still be profiles to download
             time.sleep(3)
 
             # Get the current page's HTML
@@ -68,7 +64,7 @@ class MyLikes:
                     # Click the relevant profile card
                     try:                              # Try to click on the profile picture (i.e., it's not a video)       
                         self.driver.find_element_by_xpath(xpath=f'//*[@id="c609262533"]/div[2]/div[{self.picture_count}]/div/div/span/div').click()
-                    except Exception as e:            # Click on the profile video (i.e., it's not a picture)
+                    except Exception as e:            # Click on the profile video (i.e., it's not a picture). When there aren't any more profiles to view, the script will error here and you're done.
                         self.driver.find_element_by_xpath(xpath=f'//*[@id="c609262533"]/div[2]/div[{self.picture_count}]/div/div').click()
                     
                     time.sleep(1)
@@ -83,7 +79,7 @@ class MyLikes:
                     # Get the total number of pages in the profile card
                     try:
                         number_of_pages = int(second_soup.find('button', {'class': 'bullet D(ib) Va(m) Cnt($blank)::a D(b)::a Cur(p) bullet--active H(4px)::a W(100%)::a Py(4px) Px(2px) W(100%) Bdrs(100px)::a Bgc(#fff)::a focus-background-style'}).text.split('/')[1])
-                    except Exception as e:
+                    except Exception as e:  
                         number_of_pages = 2 # If the page only has one page, set this to 2 so the loop below will run one time, as the loop starts at 1
 
                     pic_url_counter = 0
@@ -155,13 +151,13 @@ class MyLikes:
             if i == 0:
                 pyautogui.moveTo(x=1850, y=350, duration=0.5)
                 time.sleep(1)
-                print(f'Run number: {i} | {pyautogui.position()}')
+                print(f'Run number: {i}')
                 pyautogui.scroll(clicks=-2000)
                 time.sleep(2.5)
                 pyautogui.scroll(clicks=-280)
                 time.sleep(1)
             else:
-                print(f'Run number: {i} | {pyautogui.position()}')
+                print(f'Run number: {i}')
                 time.sleep(2.5)
                 pyautogui.scroll(clicks=-755) # Works for opening profile card then closing profile card (not cycling through pictures)
                 time.sleep(2.5)
