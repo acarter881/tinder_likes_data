@@ -6,23 +6,6 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from bs4 import BeautifulSoup
 
-"""
-NOTE
-1. Take name and age from the profile.
-2. Write the image url from the "likesYouCard" to a list (e.g., card_urls)
-3. If the image url is not in card_urls, open the profile slider.
-4. In the profile slider,
-Download all images in the profile slider by following the 
-url (e.g., https://images-ssl.gotinder.com/602f403c60c6df01004bd6fc/640x800_1e7fcfeb-0af5-45da-b3f4-aa81aa974b2d.jpg) 
-in the style attribute of the div tag.
-5. The number of span tags with a class attribute of "keen-slider__slide Wc($transform) Fxg(1)"
-tells us how many pictures are on a profile. If we click within the profile slider, we can go to the next picture.
-
-Note: If there's a video then there will be a jpg (screenshot) of the video as well as the video itself.
-In these cases, there's a video tag with the src attribute's value set to the url of the video.
-6. Click outside of the profile slider then go to the next profile.
-"""
-
 class MyLikes:
     def __init__(self, url, driver_path, records_path) -> None:
         self.url = url
