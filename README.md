@@ -5,8 +5,9 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 ## Versions
 1. November 25th, 2021 - Functionality to get the name and age of all of the profiles from **Likes Sent**.
 2. November 27th, 2021 - Added functionality to download the profile picture (i.e., the main picture) from each profile from **Likes Sent**.
-3. November 30th, 2021 - Added `pics_and_vids.py`, a script that downloads all pictures and videos from each profile from **Likes Sent**.
-*Note: The videos will only download the h264 compressed videos. There may be a way to get around this, but the gist of it is that non-h264 compressed videos can be the profile picture and in the HTML of another profile card. Currently, I'm not working on a fix for this edge case.*
+3. November 30th, 2021 - Added `pics_and_vids.py`, a script that downloads all pictures and videos from each profile from **Likes Sent**.*
+
+*\*Note: The videos will only download the h264 compressed videos. There may be a way to get around this, but the gist of it is that non-h264 compressed videos can be the profile picture and in the HTML of another profile card. Currently, I'm not working on a fix for this edge case.*
 
 ## Non-Python Requirements
 - Tinder Platinum.
