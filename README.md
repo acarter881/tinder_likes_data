@@ -17,9 +17,9 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 ### Excel workbook from `like_data.py`
 ![Imgur](https://imgur.com/6WjLKCs.jpg)
 ### Saved jpgs from `like_data.py`
-![Imgur](https://imgur.com/7in0fo0.jpg)
+![Imgur](https://imgur.com/gD7bIJ4.jpg)
 ### Saved jpgs and mp4s from `pics_and_vids.py`
-![Imgur](https://imgur.com/steCQJ7.jpg)
+![Imgur](https://imgur.com/DjmsSP6.jpg)
 
 ## Basic Data Analysis from Output data of `2,169` likes from `like_data.py`
 ![Imgur](https://i.imgur.com/IbCubjv.png)
