@@ -2,6 +2,7 @@ import time
 import re
 import pyautogui
 import requests
+import sys
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
@@ -27,9 +28,9 @@ class MyLikes:
         # Open the URL in Chrome
         self.driver.get(url=self.url)
         time.sleep(4)
-
+                                               
         # Click the Likes Sent button
-        self.driver.find_element_by_xpath(xpath='//*[@id="c-1281713969"]/div[1]/div[2]/a').click()
+        self.driver.find_element_by_xpath(xpath='//*[@id="q-1452937969"]/div[1]/div[2]/a').click() # Tinder may change the div the xpath relates to. I can probably write a regular expression to account for this, but I manually updated this one.
         time.sleep(3)
 
     def main(self):
@@ -61,12 +62,14 @@ class MyLikes:
                     # Increment the picture count
                     self.picture_count += 1
 
-                    # Click the relevant profile card
-                    try:                              # Try to click on the profile picture (i.e., it's not a video)       
-                        self.driver.find_element_by_xpath(xpath=f'//*[@id="c609262533"]/div[2]/div[{self.picture_count}]/div/div/span/div').click()
-                    except Exception as e:            # Click on the profile video (i.e., it's not a picture). When there aren't any more profiles to view, the script will error here and you're done.
-                        self.driver.find_element_by_xpath(xpath=f'//*[@id="c609262533"]/div[2]/div[{self.picture_count}]/div/div').click()
-                    
+                    # Click the relevant profile card           
+                    if self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div/span/div') is not None: # Tinder may change the div the xpath relates to. I can probably write a regular expression to account for this, but I manually updated this one.
+                        self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div/span/div').click()
+                    elif self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div') is not None:
+                        self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div').click()
+                    else:
+                        sys.exit('The script is complete. There are no more profile cards to go through.')
+                                     
                     time.sleep(1)
 
                     # Get HTML of the profile card
