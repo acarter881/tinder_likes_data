@@ -2,6 +2,12 @@
 Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the past 7 days. <br><br>
 ![Imgur](https://imgur.com/hSVjccD.jpg)
 
+## Table of Contents
+- [Versions](#versions)
+- [Non-Python Requirements](#non-python-requirements)
+- [Background Information](#background-information)
+- [Output](#output)
+
 ## Versions
 1. November 25th, 2021 - Added `like_data.py`, a script that gets the name and age of all of the profiles from **Likes Sent**.
 2. November 27th, 2021 - Added functionality to `like_data.py` for downloading the profile picture (i.e., the main picture) from each profile from **Likes Sent**.
