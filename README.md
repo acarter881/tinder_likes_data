@@ -21,11 +21,11 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 - Google Chrome running on localhost. See [this video](https://youtu.be/FVumnHy5Tzo) for details.
 
 ## Background Information
-### What Tinder Passions can someone select from (as of 12/02/21)?
+### 1. What Tinder Passions can someone select from (as of 12/02/21)?
 ![Imgur](https://imgur.com/3d1hBA8.jpg)
 ![Imgur](https://imgur.com/7uwIFnM.jpg)
 
-### How much does Tinder Platinum cost?
+### 2. How much does Tinder Platinum cost?
 Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21. It is a **monthly** recurring charge.
 ![Imgur](https://imgur.com/x7R0ruB.jpg)
 
