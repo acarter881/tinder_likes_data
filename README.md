@@ -28,5 +28,5 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 ![Imgur](https://i.imgur.com/0Bhshd2.png)
 
 
-## Tinder Women's Passions from `card_data.py`
+## Tinder Women's Passions from `1,305` likes from `card_data.py`
 ![Imgur](https://imgur.com/RWIglcq.jpg)
