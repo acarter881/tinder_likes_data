@@ -14,6 +14,11 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 - Tinder Platinum.
 - Google Chrome running on localhost. See [this video](https://youtu.be/FVumnHy5Tzo) for details.
 
+## Background Information
+### What Tinder Passions can someone select from (as of 12/02/21)?
+![Imgur](https://imgur.com/3d1hBA8.jpg)
+![Imgur](https://imgur.com/7uwIFnM.jpg)
+
 ## Output
 ### Excel workbook from `like_data.py`
 ![Imgur](https://imgur.com/6WjLKCs.jpg)
