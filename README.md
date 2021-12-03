@@ -26,7 +26,7 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 ![Imgur](https://imgur.com/7uwIFnM.jpg)
 
 ### How much does Tinder Platinum cost?
-Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21.
+Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21. It is a **monthly** recurring charge.
 ![Imgur](https://imgur.com/x7R0ruB.jpg)
 
 ## Output
