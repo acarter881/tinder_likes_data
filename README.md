@@ -5,7 +5,7 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 ## Table of Contents
 - [Versions](#versions)
 - [Non-Python Requirements](#non-python-requirements)
-- [Background Information](#background-information)
+- [FAQ](#faq)
 - [Output](#output)
 
 ## Versions
@@ -20,14 +20,22 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 - Tinder Platinum.
 - Google Chrome running on localhost. See [this video](https://youtu.be/FVumnHy5Tzo) for details.
 
-## Background Information
-### 1. What Tinder Passions can someone select from (as of 12/02/21)?
+## FAQ
+### 1. What is Tinder?
+The Wikipedia page for [Tinder](https://en.wikipedia.org/wiki/Tinder_(app)) provides a good description.
+### 2. What is "Likes Sent"?
+Likes Sent is an area on Tinder Platinum that allows you to see the profiles you've liked within the past 7 days.
+
+### 3. How much does Tinder Platinum cost?
+Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21. It is a **monthly** recurring charge.
+![Imgur](https://imgur.com/x7R0ruB.jpg)
+
+### 4. What Tinder Passions can someone select from (as of 12/02/21)?
 ![Imgur](https://imgur.com/3d1hBA8.jpg)
 ![Imgur](https://imgur.com/7uwIFnM.jpg)
 
-### 2. How much does Tinder Platinum cost?
-Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21. It is a **monthly** recurring charge.
-![Imgur](https://imgur.com/x7R0ruB.jpg)
+### 5. Are you selling these data or distributing the pictures and videos to others?
+No, the data are shown for research purposes and the pictures and videos are downloaded then deleted.
 
 ## Output
 ### Excel workbook from `like_data.py`
