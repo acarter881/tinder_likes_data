@@ -35,7 +35,7 @@ class MyLikes:
         time.sleep(3)
 
     def main(self):
-        for i in range(300): # This range can be pretty much anything, really. This is probably overkill, but you don't want to set it to a number where there will still be profiles to download
+        for i in range(350): # This range can be pretty much anything, really. This is probably overkill, but you don't want to set it to a number where there will still be profiles to download
             time.sleep(3)
 
             # Get the current page's HTML
@@ -65,7 +65,10 @@ class MyLikes:
 
                     # Click the relevant profile card           
                     if self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div/span/div') is not None: # Tinder may change the div the xpath relates to. I can probably write a regular expression to account for this, but I manually updated this one.
-                        self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div/span/div').click()
+                        try:
+                            self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div/span/div').click()
+                        except Exception as e:
+                            self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div/span/div[2]/video').click()
                     elif self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div') is not None:
                         self.driver.find_element_by_xpath(xpath=f'//*[@id="q438038533"]/div[2]/div[{self.picture_count}]/div/div').click()
                     else:
