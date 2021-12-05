@@ -13,6 +13,7 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 2. November 27th, 2021 - Added functionality to `like_data.py` for downloading the profile picture (i.e., the main picture) from each profile from **Likes Sent**.
 3. November 30th, 2021 - Added `pics_and_vids.py`, a script that downloads all pictures and videos from each profile from **Likes Sent**.*
 4. December 2nd, 2021 - Added `card_data.py`, a script that downloads profile card data from **Likes Sent**.
+5. December 4th, 2021 - Added `tinder_analysis.py`, a script that provides basic statistics and a word cloud from the Excel workbook from `card_data.py`.
 
 *\*Note: The script will only download the h264 compressed videos. There may be a way to get around this, but the gist of it is that non-h264 compressed videos can be the profile picture, within a profile card, and can show up in the HTML of another profile card. Currently, I'm not working on a fix for this edge case.*
 
@@ -38,17 +39,22 @@ Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21. It is a **mo
 No, the data are shown for research purposes and the pictures and videos are downloaded then deleted.
 
 ## Output
-### Excel workbook from `like_data.py`
+### 1. Excel workbook from `like_data.py`
 ![Imgur](https://imgur.com/6WjLKCs.jpg)
-### Saved jpgs from `like_data.py`
+
+### 2. Saved jpgs from `like_data.py`
 ![Imgur](https://imgur.com/gD7bIJ4.jpg)
-### Saved jpgs and mp4s from `pics_and_vids.py`
+
+### 3. Saved jpgs and mp4s from `pics_and_vids.py`
 ![Imgur](https://imgur.com/DjmsSP6.jpg)
 
-## Basic Data Analysis from Output data of `2,169` likes from `like_data.py`
+## 4. Basic Data Analysis from Output data of `2,169` likes from `like_data.py`
 ![Imgur](https://i.imgur.com/IbCubjv.png)
 ***
 ![Imgur](https://i.imgur.com/0Bhshd2.png)
 
-## Tinder Women's Passions from `1,305` likes from `card_data.py`
+## 5. Tinder Women's Passions from `1,305` likes from `card_data.py`
 ![Imgur](https://imgur.com/WPltmKJ.jpg)
+
+## 6. Word cloud from `1,305` likes from `tinder_analysis.py`
+![Imgur](https://imgur.com/iCEhZn0.jpg)
