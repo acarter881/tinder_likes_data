@@ -3,6 +3,7 @@ import re
 import pyautogui
 import requests
 import sys
+import random
 from selenium import webdriver
 from bs4 import BeautifulSoup
 
@@ -21,6 +22,12 @@ class MyLikes:
         self.options = webdriver.ChromeOptions()
         self.options.add_experimental_option('debuggerAddress', 'localhost:9222')
         self.driver = webdriver.Chrome(executable_path=driver_path, options=self.options)
+        self.headers = {
+                    'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36',
+                    'accept-language': 'en, en-US',
+                    'referer': 'https://tinder.com/',
+                    'dnt': '1'
+        }
 
     def __repr__(self) -> str:
         return 'This script is intended to download all of the pictures and videos from the profiles on the "Likes Sent" section of Tinder.'
@@ -114,7 +121,9 @@ class MyLikes:
 
                                 self.saved_picture_urls.append(pot_url)
 
-                                r = requests.get(url=pot_url)
+                                r = requests.get(url=pot_url, headers=self.headers)
+
+                                #print(r.headers) # The 'Content-Type' is either 'image/jpeg' (picture) or 'application/octet-stream' (video). The date the user uploaded the picture/video is found in 'Last-Modified'.
 
                                 with open(file=f'./tinder_pics/{self.picture_count}_{name}_{pic_url_counter}.jpg', mode='wb') as pic:
                                     pic.write(r.content)
@@ -132,7 +141,7 @@ class MyLikes:
                                     else:
                                         self.video_ids.append(vid_id)
 
-                                        r = requests.get(url=pot_vid_url)
+                                        r = requests.get(url=pot_vid_url, headers=self.headers)
 
                                         with open(file=f'./tinder_pics/{self.picture_count}_{name}_video_{pic_url_counter}.mp4', mode='wb') as vid:
                                             vid.write(r.content)
@@ -161,9 +170,9 @@ class MyLikes:
                 time.sleep(1)
             else:
                 print(f'Run number: {i} | {pyautogui.position()}')
-                time.sleep(2.5)
+                time.sleep(random.randint(2, 3))
                 pyautogui.scroll(clicks=-755)
-                time.sleep(2.5)
+                time.sleep(random.randint(2, 3))
             
 # Instantiate the class and call the necessary functions, inputting your arguments
 if __name__ == '__main__':
