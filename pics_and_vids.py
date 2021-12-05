@@ -32,7 +32,7 @@ class MyLikes:
     def __repr__(self) -> str:
         return 'This script is intended to download all of the pictures and videos from the profiles on the "Likes Sent" section of Tinder.'
 
-    def log_in(self):
+    def log_in(self) -> None:
         # Open the URL in Chrome
         self.driver.get(url=self.url)
         time.sleep(4)
@@ -41,7 +41,7 @@ class MyLikes:
         self.driver.find_element_by_xpath(xpath='//*[@id="q-1452937969"]/div[1]/div[2]/a').click() # Tinder may change the div the xpath relates to. I can probably write a regular expression to account for this, but I manually updated this one.
         time.sleep(3)
 
-    def main(self):
+    def main(self) -> None:
         for i in range(350): # This range can be pretty much anything, really. This is probably overkill, but you don't want to set it to a number where there will still be profiles to download
             time.sleep(3)
 
