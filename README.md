@@ -63,4 +63,4 @@ No, the data are shown for research purposes and the pictures and videos are dow
 ![Imgur](https://imgur.com/WPltmKJ.jpg)
 
 ## 6. Word cloud from `1,305` likes' bios from `tinder_analysis.py`
-![Imgur](https://imgur.com/QodWQw2.jpg)
+![Imgur](https://imgur.com/Ev2Yud3.jpg)
