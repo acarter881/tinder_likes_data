@@ -74,13 +74,16 @@ class TinderData:
         # Punctuations and uninteresting words to process text
         punctuations = '''!()-.[]{};:'"\,<>./?@#$%^&*_~'''
     
-        uninteresting_words = ["a", 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
-        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-        "the", "to", "if", "is", "it", "of", "and", "or", "an", "as", "i", "me", "my", 
-        "we", "our", "ours", "you", "your", "yours", "he", "she", "him", "his", "her", "hers", "its", "they", "them", 
-        "their", "what", "which", "who", "whom", "this", "that", "am", "are", "was", "were", "be", "been", "being", 
-        "have", "has", "had", "do", "does", "did", "but", "at", "by", "with", "from", "here", "when", "where", "how", 
-        "all", "any", "both", "each", "few", "more", "some", "such", "no", "nor", "too", "very", "can", "will", "just"]
+        # uninteresting_words = ["a", 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+        # 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+        # "the", "to", "if", "is", "it", "of", "and", "or", "an", "as", "i", "me", "my", 
+        # "we", "our", "ours", "you", "your", "yours", "he", "she", "him", "his", "her", "hers", "its", "they", "them", 
+        # "their", "what", "which", "who", "whom", "this", "that", "am", "are", "was", "were", "be", "been", "being", 
+        # "have", "has", "had", "do", "does", "did", "but", "at", "by", "with", "from", "here", "when", "where", "how", 
+        # "all", "any", "both", "each", "few", "more", "some", "such", "no", "nor", "too", "very", "can", "will", "just"]
+
+        uninteresting_words = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
 
         # Create a text list that ignores the "None" values
         text = [line.split() for line in self.df['Bio'] if line is not None]
@@ -104,7 +107,7 @@ class TinderData:
         # mask[mask < 1] = 255
       
         # Create the word cloud
-        cloud = WordCloud(font_path=r'C:\Windows\Fonts\HoboStd.otf', max_words=200, max_font_size=50, min_font_size=0, random_state=5, colormap='autumn', mask=mask).generate_from_frequencies(Counter(words))
+        cloud = WordCloud(font_path=r'C:\Windows\Fonts\HoboStd.otf', max_words=150, max_font_size=50, min_font_size=0, random_state=5, colormap='autumn', mask=mask).generate_from_frequencies(Counter(words))
         cloud.to_file('my_cloud.png')
 
 if __name__ == '__main__':
