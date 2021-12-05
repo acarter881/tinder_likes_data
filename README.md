@@ -27,7 +27,7 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 - [Tinder's website](https://tinder.com/about-tinder) has an *About* section.
 
 ### 2. What is Tinder Platinum?
-Taken from [Tinder's Website](https://tinder.com/feature/platinum):
+Taken from [Tinder's website](https://tinder.com/feature/platinum):
 > Enjoy all of Tinder’s premium features while getting maximum visibility on the app. Dating online just got easier. See someone you’d love to meet and can’t wait to match? As a Platinum subscriber, you can attach a note to every Super Like you send, increasing your match-making potential by up to 25%. And when you do—feel free to stand out in a major way by complimenting their photos or giving them your best opener. By making the first move, you can speed up the process and start to chat with people sooner.
 
 ### 3. How much does Tinder Platinum cost?
