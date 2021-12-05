@@ -37,6 +37,57 @@ class TinderData:
         # Convert the Distance column to floating point, converting the 'Distance Not Found' text to NaN
         self.df['Distance'] = pd.to_numeric(self.df['Distance'], errors='coerce', downcast='float')
 
+    def word_cloud(self) -> None:
+        # Punctuations and uninteresting words to process text
+        punctuations = '''!()-.[]{};:'"\,<>./?@#$%^&*_~'''
+    
+        # uninteresting_words = ["a", 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+        # 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+        # "the", "to", "if", "is", "it", "of", "and", "or", "an", "as", "i", "me", "my", 
+        # "we", "our", "ours", "you", "your", "yours", "he", "she", "him", "his", "her", "hers", "its", "they", "them", 
+        # "their", "what", "which", "who", "whom", "this", "that", "am", "are", "was", "were", "be", "been", "being", 
+        # "have", "has", "had", "do", "does", "did", "but", "at", "by", "with", "from", "here", "when", "where", "how", 
+        # "all", "any", "both", "each", "few", "more", "some", "such", "no", "nor", "too", "very", "can", "will", "just"]
+
+        uninteresting_words = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
+        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+
+        # Create a text list that ignores the "None" values
+        text = [line.split() for line in self.df['Bio'] if line is not None]
+
+        # Create the words string
+        self.words = ''
+
+        # Iterate over the text list and add the words to the words string
+        for line in text:
+            for word in line:
+                self.words += word.lower() + ' '
+
+        self.words_for_emoji = self.words
+    
+        # Text transformations
+        self.words = self.words.replace('insta', 'ig')
+        self.words = self.words.replace('instagram', 'ig')
+        self.words = self.words.replace('iggram', 'ig')
+        self.words = self.words.translate(str.maketrans('', '', punctuations))
+        self.words = [word for word in self.words.split() if word.isalpha() and word not in uninteresting_words]
+
+        # Create the mask
+        mask = np.array(Image.open(r'C:\Users\Alex\Downloads\romeo_mask-1.jpg'))
+        # mask[mask < 1] = 255
+      
+        # Create the word cloud
+        cloud = WordCloud(font_path=r'C:\Windows\Fonts\HoboStd.otf', max_words=150, max_font_size=50, min_font_size=0, random_state=5, colormap='autumn', mask=mask).generate_from_frequencies(Counter(self.words))
+        cloud.to_file('my_cloud.png')
+
+    def emoji_data(self) -> None:
+        # Emoji fun
+        emojis = Counter([char for char in self.words_for_emoji if char in self.emojis])
+        emojis_df = pd.DataFrame.from_dict(data=emojis, orient='index')
+        emojis_df.columns = ['Count']
+        emojis_df.sort_values(by='Count', ascending=False, inplace=True)
+        emojis_df.to_excel(excel_writer='./emojis.xlsx', sheet_name='Emojis', index=True, freeze_panes=(1,0))
+
     def basic_stats(self) -> None:
         # Display the count of the number of profiles
         print(f'The number of profiles is {len(self.df)}.')
@@ -76,57 +127,10 @@ class TinderData:
         # Display the number of profiles that did not have anything in the "bio" section
         print(f'The number of profiles that did not have a bio is {self.no_bio}, out of a total of {len(self.df)} profiles.\nThis equates to {round((self.no_bio / len(self.df)) * 100, 2)}%.')
 
-    def word_cloud(self) -> None:
-        # Punctuations and uninteresting words to process text
-        punctuations = '''!()-.[]{};:'"\,<>./?@#$%^&*_~'''
-    
-        # uninteresting_words = ["a", 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
-        # 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
-        # "the", "to", "if", "is", "it", "of", "and", "or", "an", "as", "i", "me", "my", 
-        # "we", "our", "ours", "you", "your", "yours", "he", "she", "him", "his", "her", "hers", "its", "they", "them", 
-        # "their", "what", "which", "who", "whom", "this", "that", "am", "are", "was", "were", "be", "been", "being", 
-        # "have", "has", "had", "do", "does", "did", "but", "at", "by", "with", "from", "here", "when", "where", "how", 
-        # "all", "any", "both", "each", "few", "more", "some", "such", "no", "nor", "too", "very", "can", "will", "just"]
-
-        uninteresting_words = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 
-        'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-
-        # Create a text list that ignores the "None" values
-        text = [line.split() for line in self.df['Bio'] if line is not None]
-
-        # Create the words string
-        words = ''
-
-        # Iterate over the text list and add the words to the words string
-        for line in text:
-            for word in line:
-                words += word.lower() + ' '
-    
-        # Emoji fun
-        emojis = Counter([char for char in words if char in self.emojis])
-        emojis_df = pd.DataFrame.from_dict(data=emojis, orient='index')
-        emojis_df.columns = ['Count']
-        emojis_df.sort_values(by='Count', ascending=False, inplace=True)
-        emojis_df.to_excel(excel_writer='./emojis.xlsx', sheet_name='Emojis', index=True, freeze_panes=(1,0))
-        
-        # Text transformations
-        words = words.replace('insta', 'ig')
-        words = words.replace('instagram', 'ig')
-        words = words.replace('iggram', 'ig')
-        words = words.translate(str.maketrans('', '', punctuations))
-        words = [word for word in words.split() if word.isalpha() and word not in uninteresting_words]
-
-        # Create the mask
-        mask = np.array(Image.open(r'C:\Users\Alex\Downloads\romeo_mask-1.jpg'))
-        # mask[mask < 1] = 255
-      
-        # Create the word cloud
-        cloud = WordCloud(font_path=r'C:\Windows\Fonts\HoboStd.otf', max_words=150, max_font_size=50, min_font_size=0, random_state=5, colormap='autumn', mask=mask).generate_from_frequencies(Counter(words))
-        cloud.to_file('my_cloud.png')
-
 if __name__ == '__main__':
     c = TinderData(path_to_workbook=r'C:\Users\Alex\Downloads\tinder - Excel workbooks\Tinder_Card_Data.xlsx')
     c.load_workbook()
     c.initial_clean()
     c.word_cloud()
+    c.emoji_data()
     c.basic_stats()
