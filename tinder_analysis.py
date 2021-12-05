@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import emoji
 from PIL import Image
 from wordcloud import WordCloud
 from collections import Counter
@@ -7,6 +8,7 @@ from collections import Counter
 class TinderData:
     def __init__(self, path_to_workbook) -> None:
         self.path_to_workbook = path_to_workbook
+        self.emojis = emoji.UNICODE_EMOJI_ENGLISH
 
     def __repr__(self) -> str:
         return 'This class takes data from an Excel workbook as input and performs basic analysis.'
@@ -14,13 +16,17 @@ class TinderData:
     def load_workbook(self) -> None:
         # Load the dataframe
         self.df = pd.read_excel(self.path_to_workbook)
-
+        
     def initial_clean(self) -> None:
         # The number of profiles that did not include a bio
         self.no_bio = sum([1 for value in self.df['Bio'] if value == 'Bio Not Found'])
-
+        
         # Replace the "Bio Not Found" with None
         self.df['Bio'].replace({'Bio Not Found': None}, inplace=True)
+
+        # # Create a dataframe that will be used for the emojis
+        # self.bio_df = self.df['Bio'][self.df['Bio'].notna()]
+        # self.bio_df = pd.DataFrame(data=self.bio_df)
 
         # The number of profiles that did not select a passion
         self.no_passions = sum([1 for value in self.df['Passions'] if value == 'Passions Not Found'])
@@ -95,10 +101,18 @@ class TinderData:
         for line in text:
             for word in line:
                 words += word.lower() + ' '
-
+    
+        # Emoji fun
+        emojis = Counter([char for char in words if char in self.emojis])
+        emojis_df = pd.DataFrame.from_dict(data=emojis, orient='index')
+        emojis_df.columns = ['Count']
+        emojis_df.sort_values(by='Count', ascending=False, inplace=True)
+        emojis_df.to_excel(excel_writer='./emojis.xlsx', sheet_name='Emojis', index=True, freeze_panes=(1,0))
+        
         # Text transformations
         words = words.replace('insta', 'ig')
         words = words.replace('instagram', 'ig')
+        words = words.replace('iggram', 'ig')
         words = words.translate(str.maketrans('', '', punctuations))
         words = [word for word in words.split() if word.isalpha() and word not in uninteresting_words]
 
