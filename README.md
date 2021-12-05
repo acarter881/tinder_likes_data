@@ -56,5 +56,5 @@ No, the data are shown for research purposes and the pictures and videos are dow
 ## 5. Tinder Women's Passions from `1,305` likes from `card_data.py`
 ![Imgur](https://imgur.com/WPltmKJ.jpg)
 
-## 6. Word cloud from `1,305` likes from `tinder_analysis.py`
+## 6. Word cloud from `1,305` likes' bios from `tinder_analysis.py`
 ![Imgur](https://imgur.com/iCEhZn0.jpg)
