@@ -23,7 +23,7 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 
 ## FAQ
 ### 1. What is Tinder?
-- The Wikipedia page for [Tinder](https://en.wikipedia.org/wiki/Tinder_(app)) provides a great description.
+- The [Wikipedia page](https://en.wikipedia.org/wiki/Tinder_(app)) for Tinder provides a great description.
 - [Tinder's Website](https://tinder.com/about-tinder) has an *About* section.
 
 ### 2. What is Tinder Platinum?
