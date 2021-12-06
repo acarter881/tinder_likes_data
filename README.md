@@ -31,7 +31,7 @@ Taken from [Tinder's website](https://tinder.com/feature/platinum):
 > Enjoy all of Tinder’s premium features while getting maximum visibility on the app. Dating online just got easier. See someone you’d love to meet and can’t wait to match? As a Platinum subscriber, you can attach a note to every Super Like you send, increasing your match-making potential by up to 25%. And when you do—feel free to stand out in a major way by complimenting their photos or giving them your best opener. By making the first move, you can speed up the process and start to chat with people sooner.
 
 ### 3. How much does Tinder Platinum cost?
-Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21. It is a **monthly** recurring charge.
+Tinder platinum cost me $28.77 USD when I purchased it on 11/20/21. It is a **monthly** recurring charge. Please note that I am 31 years old and live in the U.S.
 ![Imgur](https://imgur.com/x7R0ruB.jpg)
 
 ### 4. What is "Likes Sent"?
