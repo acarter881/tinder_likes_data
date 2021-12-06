@@ -42,7 +42,7 @@ class MyLikes:
         time.sleep(3)
 
     def main(self) -> None:
-        for i in range(350): # This range can be pretty much anything, really. This is probably overkill, but you don't want to set it to a number where there will still be profiles to download
+        for i in range(999): # This range can be pretty much anything, really. This is probably overkill, but you don't want to set it to a number where there will still be profiles to download
             time.sleep(3)
 
             # Get the current page's HTML
