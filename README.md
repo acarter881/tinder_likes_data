@@ -51,16 +51,20 @@ No, the data are shown for research purposes and the pictures and videos are dow
 ### 2. Saved jpgs from `like_data.py`
 ![Imgur](https://imgur.com/gD7bIJ4.jpg)
 
-### 3. Saved jpgs and mp4s from `pics_and_vids.py`
-![Imgur](https://imgur.com/DjmsSP6.jpg)
-
-## 4. Basic Data Analysis from data of `2,169` likes from `like_data.py`
+### 3. Basic Data Analysis from data of `2,169` likes from `like_data.py`
 ![Imgur](https://i.imgur.com/IbCubjv.png)
 ***
 ![Imgur](https://i.imgur.com/0Bhshd2.png)
 
-## 5. Tinder Women's Passions from `1,305` likes from `card_data.py`
+### 4. Saved jpgs and mp4s from `pics_and_vids.py`
+![Imgur](https://imgur.com/DjmsSP6.jpg)
+
+### 5. Time lapse: downloading 10,990 pictures and videos from `pics_and_vids.py`
+[![Video](http://img.youtube.com/vi/ZWvZJnCau0s/0.jpg)](https://www.youtube.com/watch?v=ZWvZJnCau0s "Tinder Time Lapse")
+
+
+### 6. Tinder Women's Passions from `1,305` likes from `card_data.py`
 ![Imgur](https://imgur.com/WPltmKJ.jpg)
 
-## 6. Word cloud from `1,305` likes' bios from `tinder_analysis.py`
+### 7. Word cloud from `1,305` likes' bios from `tinder_analysis.py`
 ![Imgur](https://imgur.com/Ev2Yud3.jpg)
