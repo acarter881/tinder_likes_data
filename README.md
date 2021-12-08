@@ -85,7 +85,7 @@ No, the data are shown for research purposes and the pictures and videos are dow
 ![Imgur](https://imgur.com/YbWLuR3.jpg)
 
 ## Potential Future Updates
-1. Create a database that stores profile information
-2. Ensure that duplicate data are not added to the database (e.g., not including the same profile multiple times)
-3. Track and analyze the *last-modified* datetime for each profile's pictures and videos
+1. Create a database that stores profile information.
+2. Ensure that duplicate data are not added to the database (e.g., not including the same profile multiple times).
+3. Track and analyze the *last-modified* datetime for each profile's pictures and videos.
 4. Since some emojis are not read in the current `tinder_analysis.py` script, see if there's a way to properly decode them.
