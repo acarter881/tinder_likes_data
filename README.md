@@ -7,6 +7,7 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 - [Non-Python Requirements](#non-python-requirements)
 - [FAQ](#faq)
 - [Output](#output)
+- [Potential Future Updates](#potential-future-updates)
 
 ## Versions
 1. November 25th, 2021 - Added `like_data.py`, a script that gets the name and age of all of the profiles from **Likes Sent**.
@@ -62,9 +63,29 @@ No, the data are shown for research purposes and the pictures and videos are dow
 ### 5. Time lapse: downloading 10,990 pictures and videos from `pics_and_vids.py`
 [![Video](http://img.youtube.com/vi/ZWvZJnCau0s/0.jpg)](https://www.youtube.com/watch?v=ZWvZJnCau0s "Tinder Time Lapse")
 
-
 ### 6. Tinder Women's Passions from `1,305` likes from `card_data.py`
 ![Imgur](https://imgur.com/WPltmKJ.jpg)
 
-### 7. Word cloud from `1,305` likes' bios from `tinder_analysis.py`
+### 7. Count of Distances from `1,305` likes from `card_data.py`
+![Imgur](https://imgur.com/cyTA2nO.jpg)
+
+### 8. Song Analysis from `1,305` likes from `card_data.py`
+![Imgur](https://imgur.com/VotItmm.jpg)
+
+### 9. Word cloud from `1,305` likes' bios from `tinder_analysis.py`
 ![Imgur](https://imgur.com/Ev2Yud3.jpg)
+
+### 10. Standard output from `tinder_analysis.py`
+![Imgur](https://imgur.com/fy9ItA6.jpg)
+![Imgur](https://imgur.com/OWIYa6R.jpg)
+![Imgur](https://imgur.com/H1gP5st.jpg)
+![Imgur](https://imgur.com/5t5Qt63.jpg)
+
+### 11. Emoji workbook from `tinder_analysis.py`
+![Imgur](https://imgur.com/YbWLuR3.jpg)
+
+## Potential Future Updates
+1. Create a database that stores profile information
+2. Ensure that duplicate data are not added to the database (e.g., not including the same profile multiple times)
+3. Track and analyze the *last-modified* datetime for each profile's pictures and videos
+4. Since some emojis are not read in the current `tinder_analysis.py` script, see if there's a way to properly decode them.
