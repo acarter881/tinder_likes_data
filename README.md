@@ -16,8 +16,6 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 4. December 2nd, 2021 - Added `card_data.py`, a script that downloads profile card data from **Likes Sent**.
 5. December 4th, 2021 - Added `tinder_analysis.py`, a script that provides basic statistics and a word cloud from the Excel workbook from `card_data.py`.
 
-*\*Note: The script will only download the h264 compressed videos. There may be a way to get around this, but the gist of it is that non-h264 compressed videos can be the profile picture, within a profile card, and can show up in the HTML of another profile card. Currently, I'm not working on a fix for this edge case.*
-
 ## Non-Python Requirements
 - Tinder Platinum.
 - Google Chrome running on localhost. See [this video](https://youtu.be/FVumnHy5Tzo) for details.
