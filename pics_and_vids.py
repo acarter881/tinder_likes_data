@@ -159,12 +159,12 @@ class MyLikes:
                 time.sleep(random.randint(2, 3))
                 self.incrementer += 1
 
-    def to_datetime_obj(self, date_str) -> datetime.strptime:
-        return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z') 
+    #def to_datetime_obj(self, date_str) -> datetime.strptime:
+        #return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z') 
     
-    def pandas_to_excel(self) -> None:
-        self.df = pd.DataFrame(data=self.records, columns=['Name', 'Age', 'Distance', 'Bio', 'Passions', 'Song_Title', 'Song_Artist'])
-        self.df.to_excel(excel_writer=self.records_path, sheet_name='Tinder Card Data', index=False, freeze_panes=(1,0))
+    #def pandas_to_excel(self) -> None:
+        #self.df = pd.DataFrame(data=self.records, columns=['Name', 'Age', 'Distance', 'Bio', 'Passions', 'Song_Title', 'Song_Artist'])
+        #self.df.to_excel(excel_writer=self.records_path, sheet_name='Tinder Card Data', index=False, freeze_panes=(1,0))
               
 # Instantiate the class and call the necessary functions, inputting your arguments
 if __name__ == '__main__':
