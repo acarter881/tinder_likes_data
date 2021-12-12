@@ -5,20 +5,21 @@ import requests
 import sys
 import random
 import pandas as pd
+import imagehash
 from selenium import webdriver
 from bs4 import BeautifulSoup
 from datetime import datetime
+from PIL import Image
 
 class MyLikes:
     def __init__(self, url, driver_path, records_path) -> None:
         self.url = url                      # URL for selenium
-        self.complete = False               # Is the script finished?
         self.incrementer = 0                # Variable to replace a count within a for loop for `main`
         self.card_identifier = dict()       # Unique identifier for a profile card
         self.picture_count = 0              # This helps to identify the profile card we're on and is also used in the filenames
         self.records = list()               # Storing the data to be written to an Excel workbook
         self.records_path = records_path    # Path to save the Excel workbook
-        self.now = datetime.utcnow()        # Store the start time of the script in a variable
+        self.now = datetime.utcnow()        # Store the start time, in GMT, of the script in a variable
         self.url_regEx = re.compile(pattern=r'url\(\"(https://.+\.jpg)\"')
         self.card_identifier_regEx = re.compile(pattern=r'https://images-ssl.gotinder.com/(.+)/\d{3}x')
         self.options = webdriver.ChromeOptions() # Standard for using Chrome with selenium
@@ -44,7 +45,8 @@ class MyLikes:
         time.sleep(3)
 
     def main(self) -> None:
-        while not self.complete:
+        # while 1:
+        for _ in range(1):
             time.sleep(3)
 
             # Get the current page's HTML
@@ -85,7 +87,7 @@ class MyLikes:
                     elif self.driver.find_element_by_xpath(xpath=f'//*[@id="{div_id}"]/div[2]/div[{self.picture_count}]/div/div') is not None:
                         self.driver.find_element_by_xpath(xpath=f'//*[@id="{div_id}"]/div[2]/div[{self.picture_count}]/div/div').click()
                     else:
-                        self.complete = True
+                        # Finish the script by writing the data to a dataframe then an Excel workbook. Finally, call `sys.exit()`
                         sys.exit('The script is complete. There are no more profile cards to go through.')
                                      
                     time.sleep(1)
@@ -115,34 +117,46 @@ class MyLikes:
 
                         vid = current_card.find('video', {'class': 'W(100%)'})
 
+                        # Find appropriate URL
                         if vid: 
                             vid = vid['src']
                             download_url = vid
                         else:
-                            pic = re.search(pattern=self.url_regEx, string=str(current_card)).group(1)
-                            download_url = pic
+                            download_url = re.search(pattern=self.url_regEx, string=str(current_card)).group(1)
 
+                        # Send GET request
                         r = requests.get(url=download_url, headers=self.headers)     
 
-                        # content_type, res_date, res_last_mod, e_tag = r.headers['Content-Type'], r.headers['Date'], r.headers['Last-Modified'], r.headers['ETag'].strip('\"')
-                        # res_last_mod = self.to_datetime_obj(date_str=res_last_mod)
-                        # self.records.append((self.picture_count, name, card_identifier, content_type, res_date, res_last_mod, self.now, e_tag)) 
-
+                        # Content Type (i.e., image or video) and Last-Modified
+                        content_type, res_last_mod = r.headers['Content-Type'], r.headers['Last-Modified']
+                        res_last_mod = self.to_datetime_obj(date_str=res_last_mod)
+                        time_diff = ':'.join(str(self.now - res_last_mod).split(':')[:2])
+                        
+                        # Write picture/video to disk
                         with open(file=f'./tinder_pics/{self.picture_count}_{name}_{i+1}.{download_url[-3:]}', mode='wb') as file:
                             file.write(r.content)   
-                         
+
+                        # If the content is an image, create a hash
+                        if download_url[-3:] == 'jpg':
+                            hash = imagehash.average_hash(image=Image.open(fp=f'./tinder_pics/{self.picture_count}_{name}_{i+1}.{download_url[-3:]}'))
+
+                        # Append data to list
+                        self.records.append((name, card_identifier, content_type, res_last_mod, self.now, time_diff, hash)) 
+
+                        # Check if we need to click to go to the next page
                         if i != (number_of_pages - 1):
                             pyautogui.moveTo(x=1250, y=400, duration=0.1)
                             pyautogui.click()
                             time.sleep(1)
                         else:
                             continue
-                                       
+
+                    # Click off the profile card         
                     pyautogui.moveTo(x=1850, y=350, duration=0.1)
                     pyautogui.click()
-
                     time.sleep(1)
 
+            # Move down the webpage
             if self.incrementer == 0:
                 pyautogui.moveTo(x=1850, y=350, duration=0.5)
                 time.sleep(1)
@@ -159,12 +173,12 @@ class MyLikes:
                 time.sleep(random.randint(2, 3))
                 self.incrementer += 1
 
-    #def to_datetime_obj(self, date_str) -> datetime.strptime:
-        #return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z') 
+    def to_datetime_obj(self, date_str) -> datetime.strptime:
+        return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z') 
     
-    #def pandas_to_excel(self) -> None:
-        #self.df = pd.DataFrame(data=self.records, columns=['Name', 'Age', 'Distance', 'Bio', 'Passions', 'Song_Title', 'Song_Artist'])
-        #self.df.to_excel(excel_writer=self.records_path, sheet_name='Tinder Card Data', index=False, freeze_panes=(1,0))
+    def pandas_to_excel(self) -> None:
+        self.df = pd.DataFrame(data=self.records, columns=['Name', 'Card_ID', 'Type', 'Res_Last_Mod', 'Current_Date', 'Time_Diff', 'Hash'])
+        self.df.to_excel(excel_writer=self.records_path, sheet_name='Datetime', index=False, freeze_panes=(1,0))
               
 # Instantiate the class and call the necessary functions, inputting your arguments
 if __name__ == '__main__':
@@ -173,3 +187,4 @@ if __name__ == '__main__':
                 records_path=r'C:\Users\Alex\Desktop\Date_Test.xlsx')
     c.log_in()
     c.main()
+    c.pandas_to_excel()
