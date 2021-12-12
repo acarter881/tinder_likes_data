@@ -141,7 +141,10 @@ class MyLikes:
                             hash = imagehash.average_hash(image=Image.open(fp=f'./tinder_pics/{self.picture_count}_{name}_{i+1}.{download_url[-3:]}'))
 
                         # Append data to list
-                        self.records.append((name, card_identifier, content_type, res_last_mod, self.now, time_diff, hash)) 
+                        self.records.append((name, card_identifier, content_type, res_last_mod, self.now, time_diff, hash))
+
+                        # Resetting hash. This can be handled in a better way.
+                        hash = '' 
 
                         # Check if we need to click to go to the next page
                         if i != (number_of_pages - 1):
