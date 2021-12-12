@@ -83,5 +83,5 @@ No, the data are shown for research purposes and the pictures and videos are dow
 ![Imgur](https://imgur.com/YbWLuR3.jpg)
 
 ## Potential Future Updates
-1. Create a database that stores profile information and hashes of images.
+1. Create a relational database that stores profile information and hashes of images.
 2. Since some emojis are not read in the current `tinder_analysis.py` script, see if there's a way to properly decode them.
