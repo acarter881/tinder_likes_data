@@ -15,10 +15,12 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 3. November 30th, 2021 - Added `pics_and_vids.py`, a script that downloads all pictures and videos from each profile from **Likes Sent**.*
 4. December 2nd, 2021 - Added `card_data.py`, a script that downloads profile card data from **Likes Sent**.
 5. December 4th, 2021 - Added `tinder_analysis.py`, a script that provides basic statistics and a word cloud from the Excel workbook from `card_data.py`.
+6. December 13th, 2021 - Added `pics_and_vids_2.py`, a more advanced version of `pics_and_vids.py` which uses an Excel workbook as a database. The data are appended to an existing Excel workbook's worksheet so data can be gathered over time.
 
 ## Non-Python Requirements
 - Tinder Platinum.
 - Google Chrome running on localhost. See [this video](https://youtu.be/FVumnHy5Tzo) for details.
+- Microsoft 365 (used for Microsoft Excel).
 
 ## FAQ
 ### 1. What is Tinder?
@@ -83,5 +85,6 @@ No, the data are shown for research purposes and the pictures and videos are dow
 ![Imgur](https://imgur.com/YbWLuR3.jpg)
 
 ## Potential Future Updates
-1. Create a relational database that stores profile information and hashes of images.
+1. <s>Create a relational database that stores profile information and hashes of images.</s> <br>
+I'm currently using Excel as my database instead of a relational database (e.g., sqlite or PostgreSQL).
 2. Since some emojis are not read in the current `tinder_analysis.py` script, see if there's a way to properly decode them.
