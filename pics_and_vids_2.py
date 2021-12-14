@@ -13,6 +13,8 @@ from datetime import datetime
 from PIL import Image
 from openpyxl.utils.dataframe import dataframe_to_rows
 
+# TODO Integrate the other pieces of data into the database (e.g., Passions, distance, and My Anthem).
+
 class MyLikes:
     def __init__(self, url, driver_path, records_path) -> None:
         self.url = url                      # URL for selenium
@@ -38,13 +40,15 @@ class MyLikes:
     def __repr__(self) -> str:
         return 'This script is intended to download all of the pictures and videos from the profiles on the "Likes Sent" section of Tinder.'
 
-    def load_workbook(self) -> None:
+    def load_workbook(self, initials=False) -> None:
         # Load the existing Excel workbook that's being used as a database
         self.workbook = openpyxl.load_workbook(filename=self.records_path)
         self.sheet = self.workbook['Datetime']
-
-        # Save the current database to a variable
-        self.existing_df = pd.read_excel(self.records_path, sheet_name='Datetime', header=0)
+        
+        if initials:
+            # Save the current database to a variable
+            self.existing_df = pd.read_excel(self.records_path, sheet_name='Datetime', header=0)
+            self.picture_count_from_workbook = len(set(self.existing_df['Card_ID']))
 
     def close_workbook(self) -> None:
         # Save and close the Excel workbook
@@ -63,6 +67,7 @@ class MyLikes:
     def main(self) -> None:
         # while 1:
         for _ in range(4):
+            # Sleep
             time.sleep(3)
 
             # Get the current page's HTML
@@ -81,7 +86,6 @@ class MyLikes:
             for card in cards:  
                 card_identifier = re.search(pattern=self.card_identifier_regEx, string=str(card)).group(1)
 
-                # if self.card_identifier.get(card_identifier) is not None:
                 if sum([1 for item in set(self.existing_df['Card_ID']) if item == card_identifier]) == 1 and card_identifier not in self.seen_cards:
                     # Add to seen cards list
                     self.seen_cards.append(card_identifier)
@@ -109,6 +113,9 @@ class MyLikes:
                     # Increment the picture count
                     self.picture_count += 1
 
+                    # Increment the picture count that originates from the Excel workbook only when we gather new data
+                    self.picture_count_from_workbook += 1
+
                     # Click the relevant profile card           
                     if self.driver.find_element_by_xpath(xpath=f'//*[@id="{div_id}"]/div[2]/div[{self.picture_count}]/div/div/span/div') is not None: # Tinder may change the div the xpath relates to. I can probably write a regular expression to account for this, but I manually updated this one.
                         try:
@@ -118,19 +125,25 @@ class MyLikes:
                     elif self.driver.find_element_by_xpath(xpath=f'//*[@id="{div_id}"]/div[2]/div[{self.picture_count}]/div/div') is not None:
                         self.driver.find_element_by_xpath(xpath=f'//*[@id="{div_id}"]/div[2]/div[{self.picture_count}]/div/div').click()
                     else:
-                        # Finish the script by writing the data to a dataframe then an Excel workbook. Finally, call `sys.exit()`
-                        # self.pandas_to_excel()
+                        # Finish the script by writing the data to a dataframe then appending data to an Excel workbook's worksheet. Finally, call `sys.exit()`
                         sys.exit('The script is complete. There are no more profile cards to go through.')
-                                     
+
+                    # Sleep 
                     time.sleep(1)
+
                     # Get HTML of the profile card
                     profile_html = self.driver.page_source
 
                     second_soup = BeautifulSoup(profile_html, 'html.parser')
 
-                    name = second_soup.find('h1', {'class': 'Fz($xl) Fw($bold) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)'}).text.title()
+                    # Try to get the name from the profile card
+                    if second_soup.find('h1', {'class': 'Fz($xl) Fw($bold) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)'}) is not None:
+                        name = second_soup.find('h1', {'class': 'Fz($xl) Fw($bold) Fxs(1) Fxw(w) Pend(8px) M(0) D(i)'}).text.title()
+                    else:
+                        name = 'Name Not Found'
 
-                    age = second_soup.find('span', {'class': 'Whs(nw) Fz($l)'}).text # This may be empty, but the span tag should always be there
+                    # This may be empty, but the span tag should always be there
+                    age = second_soup.find('span', {'class': 'Whs(nw) Fz($l)'}).text 
               
                     # Get the total number of pages in the profile card
                     try:
@@ -166,12 +179,12 @@ class MyLikes:
                         time_diff = ':'.join(str(self.now - res_last_mod).split(':')[:2])
                         
                         # Write picture/video to disk
-                        with open(file=f'./tinder_pics/{self.picture_count}_{name}_{i+1}.{download_url[-3:]}', mode='wb') as file:
+                        with open(file=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}', mode='wb') as file:
                             file.write(r.content)   
 
                         # If the content is an image, create a hash
                         if download_url[-3:] == 'jpg':
-                            hash = imagehash.average_hash(image=Image.open(fp=f'./tinder_pics/{self.picture_count}_{name}_{i+1}.{download_url[-3:]}'))
+                            hash = imagehash.average_hash(image=Image.open(fp=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}'))
 
                         # Append data to list
                         self.records.append((name, age, card_identifier, content_type, res_last_mod, self.now, time_diff, str(hash))) # Convert hash from imagehash.ImageHash to string
@@ -212,10 +225,6 @@ class MyLikes:
     def to_datetime_obj(self, date_str) -> datetime.strptime:
         return datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %Z') 
     
-    # def pandas_to_excel(self) -> None:
-    #     self.df = pd.DataFrame(data=self.records, columns=['Name', 'Age', 'Card_ID', 'Type', 'Last_Mod_Date', 'Current_Date', 'Time_Diff', 'Hash'])
-    #     self.df.to_excel(excel_writer=self.records_path, sheet_name='Datetime', index=False, freeze_panes=(1,0))
-
     def append_to_workbook(self) -> None:
         # Create dataframe from "self.records" list
         self.df_append = pd.DataFrame(data=self.records, columns=['Name', 'Age', 'Card_ID', 'Type', 'Last_Mod_Date', 'Current_Date', 'Time_Diff', 'Hash'])
@@ -229,11 +238,10 @@ if __name__ == '__main__':
     c = MyLikes(url='https://tinder.com/app/recs', 
                 driver_path=r'C:\Users\Alex\Desktop\Python drivers\chromedriver.exe',
                 records_path=r'C:\Users\Alex\Desktop\Date_Test.xlsx')
-    c.load_workbook()
+    c.load_workbook(initials=True)
     c.close_workbook()
     c.log_in()
     c.main()
-    c.load_workbook()
+    c.load_workbook(initials=False)
     c.append_to_workbook()
     c.close_workbook()
-    # c.pandas_to_excel()
