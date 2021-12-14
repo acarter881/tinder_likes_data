@@ -13,8 +13,6 @@ from datetime import datetime
 from PIL import Image
 from openpyxl.utils.dataframe import dataframe_to_rows
 
-# TODO Integrate the other pieces of data into the database (e.g., Passions, distance, and My Anthem).
-
 class MyLikes:
     def __init__(self, url, driver_path, records_path) -> None:
         self.url = url                      # URL for selenium
@@ -27,6 +25,7 @@ class MyLikes:
         self.now = datetime.utcnow()        # Store the start time, in GMT, of the script in a variable
         self.url_regEx = re.compile(pattern=r'url\(\"(https://.+\.jpg)\"')
         self.card_identifier_regEx = re.compile(pattern=r'https://images-ssl.gotinder.com/(.+)/\d{3}x')
+        self.distance_regEx = re.compile(pattern=r'(\d+) miles away')
         self.options = webdriver.ChromeOptions() # Standard for using Chrome with selenium
         self.options.add_experimental_option('debuggerAddress', 'localhost:9222') # Running Chrome on localhost
         self.driver = webdriver.Chrome(executable_path=driver_path, options=self.options) # Standard for using Chrome with selenium
@@ -66,7 +65,7 @@ class MyLikes:
 
     def main(self) -> None:
         # while 1:
-        for _ in range(4):
+        for _ in range(1):
             # Sleep
             time.sleep(3)
 
@@ -143,7 +142,48 @@ class MyLikes:
                         name = 'Name Not Found'
 
                     # This may be empty, but the span tag should always be there
-                    age = second_soup.find('span', {'class': 'Whs(nw) Fz($l)'}).text 
+                    age = second_soup.find('span', {'class': 'Whs(nw) Fz($l)'}).text
+
+                    # Try to get the distance from me from the profile card
+                    if second_soup.find('div', {'class': 'Fz($ms)'}) is not None:
+                        row_text = str(second_soup.find('div', {'class': 'Fz($ms)'}))
+
+                        if re.search(pattern=self.distance_regEx, string=row_text):
+                            distance = re.search(pattern=self.distance_regEx, string=row_text).group(1)
+                        else:
+                            distance = 'Distance Not Found'
+                    else:
+                        distance = 'Distance Not Found'
+
+                    # Try to get the bio from the profile card
+                    if second_soup.find('div', {'class': 'P(16px) Us(t) C($c-secondary) BreakWord Whs(pl) Fz($ms)'}) is not None:
+                        bio = second_soup.find('div', {'class': 'P(16px) Us(t) C($c-secondary) BreakWord Whs(pl) Fz($ms)'}).text
+                    else:
+                        bio = 'Bio Not Found'
+
+                    # Try to get the passions from the profile card
+                    if second_soup.find_all('div', {'class': 'Bdrs(100px) Bd D(ib) Va(m) Fz($xs) Mend(8px) Mb(8px) Px(8px) Py(4px) Bdc($c-secondary) C($c-secondary)'}) is not None:
+                        passions = second_soup.find_all('div', {'class': 'Bdrs(100px) Bd D(ib) Va(m) Fz($xs) Mend(8px) Mb(8px) Px(8px) Py(4px) Bdc($c-secondary) C($c-secondary)'})
+
+                        passions_text = ''
+
+                        for passion in passions:
+                            passions_text += passion.text + ','
+
+                        passions_text = passions_text.strip(',')
+                    else:
+                        passions_text = 'Passions Not Found'
+
+                    if passions_text == '':
+                        passions_text = 'Passions Not Found'
+
+                    # Try to get the "My Anthem" from the profile card
+                    if second_soup.find('div', {'class': 'Mb(4px) Ell Fz($ms)'}) is not None:
+                        song_title = second_soup.find('div', {'class': 'Mb(4px) Ell Fz($ms)'}).text
+                        song_artist = second_soup.find('span', {'class': 'Mstart(4px) Ell'}).text
+                    else:
+                        song_title = 'No Song Title Found'
+                        song_artist = 'No Song Artist Found'
               
                     # Get the total number of pages in the profile card
                     try:
@@ -187,7 +227,21 @@ class MyLikes:
                             hash = imagehash.average_hash(image=Image.open(fp=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}'))
 
                         # Append data to list
-                        self.records.append((name, age, card_identifier, content_type, res_last_mod, self.now, time_diff, str(hash))) # Convert hash from imagehash.ImageHash to string
+                        self.records.append(
+                                           (name, 
+                                            age, 
+                                            distance,
+                                            bio,
+                                            passions_text,
+                                            song_title,
+                                            song_artist,
+                                            card_identifier, 
+                                            content_type, 
+                                            res_last_mod, 
+                                            self.now, 
+                                            time_diff, 
+                                            str(hash))
+                        ) # Convert hash from imagehash.ImageHash to string
 
                         # Resetting hash. This can be handled in a better way.
                         hash = '' 
@@ -227,7 +281,21 @@ class MyLikes:
     
     def append_to_workbook(self) -> None:
         # Create dataframe from "self.records" list
-        self.df_append = pd.DataFrame(data=self.records, columns=['Name', 'Age', 'Card_ID', 'Type', 'Last_Mod_Date', 'Current_Date', 'Time_Diff', 'Hash'])
+        self.df_append = pd.DataFrame(data=self.records, 
+                                      columns=['Name', 
+                                               'Age', 
+                                               'Distance',
+                                               'Bio',
+                                               'Passions',
+                                               'Song_Title',
+                                               'Song_Artist',
+                                               'Card_ID',
+                                               'Type',
+                                               'Last_Mod_Date', 
+                                               'Current_Date', 
+                                               'Time_Diff', 
+                                               'Hash']
+)
 
         # Append each row from the dataframe to the Excel workbook's worksheet
         for row in dataframe_to_rows(df=self.df_append, index=False, header=False):
