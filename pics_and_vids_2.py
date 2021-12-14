@@ -65,7 +65,7 @@ class MyLikes:
 
     def main(self) -> None:
         # while 1:
-        for _ in range(1):
+        for _ in range(10):
             # Sleep
             time.sleep(3)
 
@@ -204,11 +204,15 @@ class MyLikes:
                         vid = current_card.find('video', {'class': 'W(100%)'})
 
                         # Find appropriate URL
-                        if vid: 
-                            vid = vid['src']
-                            download_url = vid
-                        else:
-                            download_url = re.search(pattern=self.url_regEx, string=str(current_card)).group(1)
+                        try:
+                            if vid: 
+                                vid = vid['src']
+                                download_url = vid
+                            else:
+                                download_url = re.search(pattern=self.url_regEx, string=str(current_card)).group(1)
+                        except Exception:
+                            print(f'Could not find a download URL, {self.picture_count_from_workbook}, page {number_of_pages}')
+                            continue # Couldn't find a download URL
 
                         # Send GET request
                         r = requests.get(url=download_url, headers=self.headers)     
