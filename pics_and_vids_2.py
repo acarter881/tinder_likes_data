@@ -65,7 +65,7 @@ class MyLikes:
 
     def main(self) -> None:
         # while 1:
-        for _ in range(10):
+        for _ in range(7):
             # Sleep
             time.sleep(3)
 
@@ -78,8 +78,8 @@ class MyLikes:
             # Find all profile cards within the current HTML
             cards = self.soup.find_all('div', {'aria-label': re.compile(pattern=r'.*'), 'class': 'Bdrs(8px) Bgz(cv) Bgp(c) StretchedBox'})
 
-            # Find the div's id for the div that holds the profile cards. This is important because Tinder frequently changes this id 
-            div_id = self.soup.find('div', {'class': 'likesYou__scroller Sb(s) D(f) Jc(c) Fxd(c) Animtf(l) Animfm(f) Animdur(.75s) Ovy(s) Ovsb(n) Ovs(touch)'})['id']
+            # Find the div's id for the div that holds the profile cards. This is important because Tinder frequently changes this id, the class name, etc.
+            div_id = self.soup.find('div', {'class': 'Sb(s) D(f) Jc(c) Fxd(c) Animtf(l) Animfm(f) Animdur(.75s) NetHeight(100%,--side-nav-bar-height)--ml H(100%) Ovy(s) Ovsb(n) Ovs(touch)'})['id']
             
             # Iterate over the profile cards
             for card in cards:  
