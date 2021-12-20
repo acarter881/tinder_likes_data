@@ -16,6 +16,7 @@ Gathering data of **Likes Sent** on [Tinder](https://tinder.com/) within the pas
 4. December 2nd, 2021 - Added `card_data.py`, a script that downloads profile card data from **Likes Sent**.
 5. December 4th, 2021 - Added `tinder_analysis.py`, a script that provides basic statistics and a word cloud from the Excel workbook from `card_data.py`.
 6. December 13th, 2021 - Added `pics_and_vids_2.py`, a more advanced version of `pics_and_vids.py` which uses an Excel workbook as a database. The data are appended to an existing Excel workbook's worksheet so data can be gathered over time.
+7. December 19th, 2021 - Added `hash_images.py`, a script that outputs a text file with the image name and its respective hash value.
 
 ## Non-Python Requirements
 - Tinder Platinum.
