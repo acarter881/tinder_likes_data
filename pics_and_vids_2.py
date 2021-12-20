@@ -226,9 +226,9 @@ class MyLikes:
                         with open(file=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}', mode='wb') as file:
                             file.write(r.content)   
 
-                        # If the content is an image, create a hash
+                        # If the content is an image, use the phash method to create a hash
                         if download_url[-3:] == 'jpg':
-                            hash = imagehash.average_hash(image=Image.open(fp=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}'))
+                            hash = imagehash.phash(image=Image.open(fp=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}'))
 
                         # Append data to list
                         self.records.append(
