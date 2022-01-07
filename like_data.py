@@ -42,7 +42,7 @@ class MyLikes:
         time.sleep(2)
 
         # Click the Likes Sent button
-        self.driver.find_element_by_xpath(xpath='//*[@id="c-1281713969"]/div[1]/div[2]/a').click()
+        self.driver.find_element_by_xpath(xpath='//a[@href="/app/my-likes"]').click() # Selecting by the href of an anchor (i.e., 'a') tag
         time.sleep(3)
 
         # Press a point on the page that gives a reference for scrolling to the bottom
