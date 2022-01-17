@@ -79,7 +79,7 @@ class MyLikes:
             cards = self.soup.find_all('div', {'aria-label': re.compile(pattern=r'.*'), 'class': 'Bdrs(8px) Bgz(cv) Bgp(c) StretchedBox'})
 
             # Find the div's id for the div that holds the profile cards. This is important because Tinder frequently changes this id, the class name, etc.
-            div_id = self.soup.find('div', {'class': 'Sb(s) D(f) Jc(c) Fxd(c) Animtf(l) Animfm(f) Animdur(.75s) NetHeight(100%,--side-nav-bar-height)--ml H(100%) Ovy(s) Ovsb(n) Ovs(touch)'})['id']
+            div_id = self.soup.find('div', {'class': re.compile(r'Sb\(s\).+')})['id']
             
             # Iterate over the profile cards
             for card in cards:  
@@ -162,8 +162,8 @@ class MyLikes:
                         bio = 'Bio Not Found'
 
                     # Try to get the passions from the profile card
-                    if second_soup.find_all('div', {'class': 'Bdrs(100px) Bd D(ib) Va(m) Fz($xs) Mend(8px) Mb(8px) Px(8px) Py(4px) Bdc($c-secondary) C($c-secondary)'}) is not None:
-                        passions = second_soup.find_all('div', {'class': 'Bdrs(100px) Bd D(ib) Va(m) Fz($xs) Mend(8px) Mb(8px) Px(8px) Py(4px) Bdc($c-secondary) C($c-secondary)'})
+                    if second_soup.find_all('h2', {'class': re.compile('Fw\(\$medium.+')}) is not None:
+                        passions = second_soup.find_all('div', {'class': re.compile(r'Bdrs\(100px\).+'), 'tabindex': re.compile('\-?\d+')})
 
                         passions_text = ''
 
@@ -175,7 +175,7 @@ class MyLikes:
                         passions_text = 'Passions Not Found'
 
                     if passions_text == '':
-                        passions_text = 'Passions Not Found'
+                        passions_text = 'Passions Not Found'                  
 
                     # Try to get the "My Anthem" from the profile card
                     if second_soup.find('div', {'class': 'Mb(4px) Ell Fz($ms)'}) is not None:
