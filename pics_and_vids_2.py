@@ -218,17 +218,25 @@ class MyLikes:
                         r = requests.get(url=download_url, headers=self.headers)     
 
                         # Content Type (i.e., image or video) and Last-Modified
-                        content_type, res_last_mod = r.headers['Content-Type'], r.headers['Last-Modified']
-                        res_last_mod = self.to_datetime_obj(date_str=res_last_mod)
-                        time_diff = ':'.join(str(self.now - res_last_mod).split(':')[:2])
-                        
+                        content_type = r.headers['Content-Type']
+
+                        # There is a rare scenario in which the ['last-modified'] key does not exist in the Response Headers
+                        try:
+                            res_last_mod = r.headers['Last-Modified']
+                            res_last_mod = self.to_datetime_obj(date_str=res_last_mod)
+                            time_diff = ':'.join(str(self.now - res_last_mod).split(':')[:2])
+                        except Exception as wrong:
+                            res_last_mod = 'Not Found'
+                            time_diff = 'Cannot Be Calculated'
+                            print(f'Exception found while trying to download {download_url} from the {card_identifier} profile:\n{wrong}')
+             
                         # Write picture/video to disk
-                        with open(file=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}', mode='wb') as file:
+                        with open(file=f'./second_tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}', mode='wb') as file:
                             file.write(r.content)   
 
                         # If the content is an image, use the phash method to create a hash
                         if download_url[-3:] == 'jpg':
-                            hash = imagehash.phash(image=Image.open(fp=f'./tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}'))
+                            hash = imagehash.phash(image=Image.open(fp=f'./second_tinder_pics/{self.picture_count_from_workbook}_{name}_{i+1}.{download_url[-3:]}'))
 
                         # Append data to list
                         self.records.append(
@@ -309,7 +317,7 @@ class MyLikes:
 if __name__ == '__main__':
     c = MyLikes(url='https://tinder.com/app/recs', 
                 driver_path=r'C:\Users\Alex\Desktop\Python drivers\chromedriver.exe',
-                records_path=r'C:\Users\Alex\Desktop\Date_Test.xlsx')
+                records_path=r'C:\Users\Alex\Desktop\SECOND_Date_Test.xlsx')
     c.load_workbook(initials=True)
     c.close_workbook()
     c.log_in()
